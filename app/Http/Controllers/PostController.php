@@ -15,7 +15,6 @@ class PostController extends BaseController
     public function index()
     {
         $posts = Post::all();
-
         return view('post.index', compact('posts'));//view-имя blade файла, var_name-имя переменной нашего класса
 
 
