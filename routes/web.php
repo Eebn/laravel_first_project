@@ -7,6 +7,7 @@ use App\Http\Controllers\Post\IndexController;
 use App\Http\Controllers\Post\ShowController;
 use App\Http\Controllers\Post\StoreController;
 use App\Http\Controllers\Post\UpdateController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,9 +21,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+//Auth::routes();
+
+//Route::redirect('/', 'home')->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::group(['namespace' => 'App\Http\Controllers\Post'], function () {
@@ -37,7 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Post'], function () {
 });
 
 
-Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::group(['namespace' => 'Post'], function () {
         Route::get('/post', 'IndexController')->name('admin.post.index');
     });
@@ -48,3 +53,7 @@ Route::get('/main', 'App\Http\Controllers\MainController@index')->name('main.ind
 Route::get('/about', 'App\Http\Controllers\AboutController@index')->name('about.index');
 Route::get('/contacts', 'App\Http\Controllers\ContactsController@index')->name('contact.index');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
